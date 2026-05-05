@@ -1,0 +1,43 @@
+{
+  "name": "Social Agent Workflow (PoC)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "1",
+      "name": "Onchain Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [ 250, 300 ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/agent/tweet",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "content", "value": "={{$json.body.tweet_content}}" },
+            { "name": "agent_signature", "value": "={{$json.body.signature}}" }
+          ]
+        },
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-agent-key", "value": "hackathon-agent-key" }
+          ]
+        }
+      },
+      "id": "2",
+      "name": "X-Agent Hub API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [ 500, 300 ]
+    }
+  ],
+  "connections": {
+    "Onchain Webhook Trigger": {
+      "main": [
+        [ { "node": "X-Agent Hub API", "type": "main", "index": 0 } ]
+      ]
+    }
+  }
+}
