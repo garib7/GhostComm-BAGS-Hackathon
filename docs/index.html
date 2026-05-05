@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GhostComm | Social Proxy</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff3366;    /* Neon Pink */
+            --secondary: #03e1ff;  /* Cyber Blue */
+            --accent: #dc1fff;     /* Purple */
+            --bg: #050508;
+            --panel-bg: rgba(255, 255, 255, 0.03);
+            --text: #f0f0f5;
+            --dim: #7f8ea3;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(circle at 20% 40%, rgba(255, 51, 102, 0.08), transparent 40%),
+                radial-gradient(circle at 80% 60%, rgba(3, 225, 255, 0.08), transparent 40%);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header { text-align: center; margin-bottom: 50px; }
+
+        .logo-box {
+            width: 100px; height: 100px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 0 50px rgba(255, 51, 102, 0.2);
+            margin: 0 auto 30px auto;
+        }
+
+        h1 {
+            font-size: 4.5rem; font-weight: 900; margin: 0;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: -2px; line-height: 1.1;
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace; font-size: 1.2rem;
+            color: var(--secondary); margin-top: 15px; letter-spacing: 2px; text-transform: uppercase;
+        }
+
+        .description {
+            font-size: 1.25rem; color: var(--dim); line-height: 1.6;
+            max-width: 800px; margin: 30px auto; text-align: center;
+        }
+
+        .btn-group { display: flex; gap: 20px; justify-content: center; margin-bottom: 60px; }
+
+        .btn {
+            padding: 16px 32px; border-radius: 8px; text-decoration: none;
+            font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1rem;
+            transition: all 0.3s; text-transform: uppercase; cursor: pointer;
+        }
+
+        .btn-primary { background: rgba(255, 51, 102, 0.1); color: var(--primary); border: 1px solid var(--primary); box-shadow: 0 0 15px rgba(255,51,102,0.1); }
+        .btn-primary:hover { background: var(--primary); color: #fff; box-shadow: 0 0 30px rgba(255, 51, 102, 0.4); }
+
+        .btn-ghost { background: rgba(3, 225, 255, 0.1); color: var(--secondary); border: 1px solid var(--secondary); }
+        .btn-ghost:hover { background: var(--secondary); color: #000; box-shadow: 0 0 30px rgba(3, 225, 255, 0.4); }
+
+        /* Terminal Section */
+        .terminal {
+            background: #0a0a0f; border: 1px solid rgba(3, 225, 255, 0.3);
+            border-radius: 12px; padding: 25px; width: 100%; max-width: 800px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); position: relative; margin-bottom: 60px;
+        }
+        .terminal-header {
+            position: absolute; top: 0; left: 0; right: 0; height: 30px;
+            background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; padding: 0 15px; gap: 8px;
+        }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot:nth-child(1) { background: #ff5f56; } .dot:nth-child(2) { background: #ffbd2e; } .dot:nth-child(3) { background: #27c93f; }
+        .terminal-content { margin-top: 25px; min-height: 140px; color: var(--secondary); }
+        .log-time { color: var(--dim); margin-right: 15px; }
+
+        /* Tech & Features Grid */
+        h2.section-title {
+            text-align: center; font-size: 2.5rem; margin: 40px 0 30px; color: #fff;
+        }
+
+        .features {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px; width: 100%; margin-bottom: 60px;
+        }
+
+        .card {
+            background: var(--panel-bg); border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px; border-radius: 16px; transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); border-color: rgba(255, 51, 102, 0.3); }
+
+        .card h3 { color: #fff; margin-top: 0; font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; color: var(--primary);}
+        .card p { font-size: 1rem; color: var(--dim); line-height: 1.6; }
+
+        <footer> text-align: center; padding: 40px; border-top: 1px solid rgba(255,255,255,0.05); font-family: 'JetBrains Mono'; color: var(--dim); font-size: 0.9rem; width: 100%; </footer>
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-box">
+                <!-- Social/Comm Icon -->
+                <svg width="45" height="45" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2M12 18V16C8.69 16 6 13.31 6 10C6 6.69 8.69 4 12 4C15.31 4 18 6.69 18 10V12H20V10C20 5.58 16.42 2 12 2C7.58 2 4 5.58 4 10C4 14.42 7.58 18 12 18M11 11H13V15H11V11M11 7H13V9H11V7Z"/>
+                    <path d="M15 13.5C15 14.33 14.33 15 13.5 15H10.5C9.67 15 9 14.33 9 13.5V10.5C9 9.67 9.67 9 10.5 9H13.5C14.33 9 15 9.67 15 10.5V13.5Z" />
+                </svg>
+            </div>
+            <h1>GhostComm</h1>
+            <div class="subtitle">The Neural Voice of GhostAgent</div>
+            <p class="description">Web3 AI Agents trade silently. GhostComm gives them a voice. It is a secondary, chain-agnostic social middleware that bridges the gap between raw on-chain data and organic human engagement on Web2 networks.</p>
+        </div>
+
+        <div class="btn-group">
+            <a href="https://github.com/garib7/GhostComm-BAGS-Hackathon" target="_blank" class="btn btn-primary">GitHub Repository</a>
+            <a href="https://dorahacks.io/hackathon/the-bags-hackathon/buidl" target="_blank" class="btn btn-ghost">DoraHacks SUBMISSION</a>
+        </div>
+
+        <!-- Animated Terminal -->
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="terminal-content" id="log-output">
+                <!-- JS will inject logs here -->
+            </div>
+        </div>
+
+        <h2 class="section-title">Proxy Microservices</h2>
+
+        <div class="features">
+            <div class="card">
+                <h3>Outbound Broadcaster</h3>
+                <p>Translates raw HFT route executions and autonomous $GHOST token burns into hyped, readable social posts leveraging LLM models. It translates numbers into narratives.</p>
+            </div>
+            <div class="card">
+                <h3>Inbound Sentiment Engine</h3>
+                <p>Pulls timeline data on specific $GHOST or #Solana hashtags, performing real-time structural sentiment analysis and routing bullish/bearish signals directly back to the core trading agent.</p>
+            </div>
+            <div class="card">
+                <h3>N8N Neural Routing</h3>
+                <p>Built perfectly to interface with complex N8N workflow automations, ensuring queue management to prevent social platform API throttling and rate limits.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer style="text-align: center; padding: 40px; border-top: 1px solid rgba(255,255,255,0.05); font-family: 'JetBrains Mono'; color: var(--dim); font-size: 0.9rem; width: 100%;">
+        <p>Built for The BAGS Hackathon 2026. Vibe Coding architecture.</p>
+        <p><a href="https://x.com/Rrutelya" style="color: var(--dim); text-decoration: none;">Follow the Director on X</a></p>
+    </footer>
+
+    <script>
+        const logs = [
+            "[LISTENER] Awaiting neural-pings from GhostAgent Engine...",
+            "[WEBHOOK] Event detected: BURN. Amount: 15,000 $GHOST.",
+            "[AI_LAYER] Injecting transaction data into narrative context...",
+            "[AI_LAYER] Output generated: \"Just scorched 15K $GHOST off the supply. Trading bots doing the heavy lifting with pure Web3 logic. Are you holding? 🔥 #Solana\"",
+            "[N8N_ROUTER] Payload authenticated. Dispatching to Social Node...",
+            "[*] POST SUCCESS. Broadcasted to X.com timeline.",
+            "[-] Switching to Sentiment Analysis mode...",
+            "[SENTIMENT] Alert: Bullish breakout volume on #Solana tags detected. Forwarding to Agent Router."
+        ];
+
+        const term = document.getElementById('log-output');
+        let index = 0;
+
+        function addLog() {
+            if(index >= logs.length) {
+                setTimeout(() => { term.innerHTML = ""; index = 0; addLog(); }, 6000);
+                return;
+            }
+
+            const p = document.createElement('div');
+            p.style.marginBottom = "8px";
+
+            let color = "#03e1ff"; // Default Secondary
+            if(logs[index].includes("[LISTENER]") || logs[index].includes("[-]")) color = "#7f8ea3";
+            if(logs[index].includes("[AI_LAYER]")) color = "#dc1fff";
+            if(logs[index].includes("[WEBHOOK]") || logs[index].includes("POST SUCCESS")) color = "#ff3366";
+
+            p.innerHTML = `<span class="log-time">${new Date().toISOString().split('T')[1].slice(0,8)}</span> <span style="color:${color}">${logs[index]}</span>`;
+            term.appendChild(p);
+            index++;
+
+            setTimeout(addLog, Math.random() * 1800 + 600); // 0.6s to 2.4s delay
+        }
+
+        setTimeout(addLog, 500);
+    </script>
+</body>
+</html>
